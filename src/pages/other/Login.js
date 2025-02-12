@@ -80,7 +80,7 @@ const Login = () => {
                 <Row className="justify-content-end row">
                     <Col lg={4} md={6} className="px-5" style={{ marginRight: '160px' }}>
                         <div className="bg-white p-4 rounded shadow-lg">
-                            <h2 className="text-center mb-4" style={{ color: '#f56387' }}>Đăng Nhập</h2>
+                            <h2 className="text-center mb-4" style={{ color: '#f56387' }}>Đăng Nhập 10</h2>
                             <Form onSubmit={handleLogin}>
                                 <Form.Group className="mb-3">
                                     <Form.Control
