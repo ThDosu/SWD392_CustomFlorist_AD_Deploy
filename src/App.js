@@ -1,27 +1,29 @@
 import PropTypes from "prop-types";
-import React, { useEffect, Suspense, lazy } from "react";
-import ScrollToTop from "./helpers/scroll-top";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ToastProvider } from "react-toast-notifications";
-import { multilanguage, loadLanguages } from "redux-multilanguage";
-import { connect } from "react-redux";
+import React, { Suspense, lazy, useEffect } from "react";
 import { BreadcrumbsProvider } from "react-breadcrumbs-dynamic";
-import ForgetPasswordForm from "./components/form/forgetPassword";
-import ResetPasswordForm from "./components/form/resetPassword";
-import SignInWithGoogle from "./pages/other/SignInWithGoogle";
-import SalerSidebar from "./components/sidebar/Sidebar";
-import Dashboard from "./components/sidebar/DashBoard";
-import ShopManagement from "./components/sidebar/ShopManagement";
-import StoreProfile from "./components/sidebar/ProductManager/StoreProfile";
-import ProductList from "./components/sidebar/ProductManager/ProductList";
-import PromotionList from "./components/sidebar/PromotionManager/PromotionList";
-import AddProduct from "./components/sidebar/ProductManager/AddProduct";
-import OrderList from "./components/sidebar/OrderManager/OrderList";
-import LoginPage from "./pages/other/Login";
-import DistanseFeeList from "./components/sidebar/DistanceFee/DistanseFeeList";
-import PaymentList from "./components/sidebar/PaymentManager/PaymentList";
-import UpdateProduct from "./components/sidebar/ProductManager/UpdateProduct";
+import { connect } from "react-redux";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { ToastProvider } from "react-toast-notifications";
+import { loadLanguages, multilanguage } from "redux-multilanguage";
 
+import ResetPasswordForm from "./components/form/resetPassword";
+import Dashboard from "./components/sidebar/DashBoard";
+import DistanseFeeList from "./components/sidebar/DistanceFee/DistanseFeeList";
+import OrderList from "./components/sidebar/OrderManager/OrderList";
+import PaymentList from "./components/sidebar/PaymentManager/PaymentList";
+import AddProduct from "./components/sidebar/ProductManager/AddProduct";
+import ProductList from "./components/sidebar/ProductManager/ProductList";
+import StoreProfile from "./components/sidebar/ProductManager/StoreProfile";
+import PromotionList from "./components/sidebar/PromotionManager/PromotionList";
+import ShopManagement from "./components/sidebar/ShopManagement";
+import SalerSidebar from "./components/sidebar/Sidebar";
+import ScrollToTop from "./helpers/scroll-top";
+import LoginPage from "./pages/other/Login";
+import SignInWithGoogle from "./pages/other/SignInWithGoogle";
+import UserList from "./components/sidebar/UserManager/UserList";
+import FlowerList from "./components/sidebar/FLowerManager/FLowerList";
+import AddFlower from "./components/sidebar/FLowerManager/AddFlower";
+import ForgetPasswordForm from "./components/form/forgetPassword";
 
 // // home pages
 // const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
@@ -124,7 +126,7 @@ import UpdateProduct from "./components/sidebar/ProductManager/UpdateProduct";
 // const Checkout = lazy(() => import("./pages/other/Checkout"));
 
 const NotFound = lazy(() => import("./pages/other/Login"));
-const publicUrl = typeof process !== 'undefined' ? process.env.REACT_APP_PUBLIC_URL || "" : "";
+const publicUrl = typeof process !== "undefined" ? process.env.REACT_APP_PUBLIC_URL || "http://localhost:3000" : "";
 
 const App = (props) => {
   useEffect(() => {
@@ -133,8 +135,8 @@ const App = (props) => {
         languages: {
           en: require("./translations/english.json"),
           fn: require("./translations/french.json"),
-          de: require("./translations/germany.json")
-        }
+          de: require("./translations/germany.json"),
+        },
       })
     );
   });
@@ -155,31 +157,18 @@ const App = (props) => {
               }
             >
               <Switch>
-                <Route
-                  path={publicUrl + "/login"}
-                  component={LoginPage}
-                />
-                <Route
-                  path={publicUrl + "/forget-password"}
-                  component={ForgetPasswordForm}
-                />
-                <Route
-                  path={publicUrl + "/reset-password"}
-                  component={ResetPasswordForm}
-                />
-                <Route
-                  path={publicUrl + "/signInWithGoogle"}
-                  component={SignInWithGoogle}
-                />
-                <Route
-                  path={publicUrl + "/not-found"}
-                  component={NotFound}
-                />
+                <Route path={publicUrl + "/login"} component={LoginPage} />
+                <Route path={"/forget-password"} component={ForgetPasswordForm} />
+                <Route path={publicUrl + "/reset-password"} component={ResetPasswordForm} />
+                <Route path={publicUrl + "/signInWithGoogle"} component={SignInWithGoogle} />
+                <Route path={publicUrl + "/not-found"} component={NotFound} />
                 <Route path="/banhang">
                   <SalerSidebar>
                     <Switch>
                       <Route path="/banhang/dashboard" component={Dashboard} />
                       <Route path="/banhang/shop-management" component={ShopManagement} />
+                      <Route path="/banhang/flower-management" component={FlowerList} />
+                      <Route path="/banhang/add-flower" component={AddFlower} />
                       <Route path="/banhang/shop-profile" component={StoreProfile} />
                       <Route path="/banhang/all-products" component={ProductList} />
                       <Route path="/banhang/order-management" component={OrderList} />
@@ -187,6 +176,7 @@ const App = (props) => {
                       <Route path="/banhang/shipping-fee-settings" component={DistanseFeeList} />
                       <Route path="/banhang/add-product" component={AddProduct} />
                       <Route path="/banhang/all-promotion" component={PromotionList} />
+                      <Route path="/banhang/all-user" component={UserList} />
                     </Switch>
                   </SalerSidebar>
                 </Route>
@@ -202,7 +192,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
 };
 
 export default connect()(multilanguage(App));
